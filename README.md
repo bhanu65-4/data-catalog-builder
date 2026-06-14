@@ -1,46 +1,97 @@
-<<<<<<< HEAD
-# data-catalog-builder
-=======
-Data Catalog Builder (Prototype)
+# Data Catalog Builder
 
-Lightweight prototype that scans a folder of CSVs and SQL databases, builds a JSON catalog (tables, columns, sample values), and provides LLM-based column descriptions with a Streamlit search UI.
+A lightweight data cataloging application that scans CSV files and SQL databases, extracts metadata, profiles datasets, discovers relationships, and provides an interactive Streamlit interface for exploration.
 
-Quick start
+## Features
 
-1. Create a Python virtual environment and install requirements:
+- Upload and register CSV datasets
+- Automatic metadata extraction
+- Column profiling and statistics
+- Relationship discovery between tables
+- Searchable data catalog
+- Interactive Streamlit dashboard
+- Export catalog functionality
+- LLM-ready metadata descriptions
 
-```bash
+## Project Structure
+
+```
+data-catalog-builder/
+├── data/
+├── outputs/
+├── cataloger.py
+├── streamlit_app.py
+├── requirements.txt
+├── README.md
+└── catalog.json
+```
+
+## Installation
+
+Create a virtual environment and install dependencies:
+
+```
 python -m venv .venv
-# Windows activate
-.venv\\Scripts\\activate
+
+# Windows
+.venv\Scripts\activate
+
 pip install -r requirements.txt
 ```
 
-2. Generate a catalog from CSVs and (optionally) DBs:
+## Usage
 
-```bash
+### Generate Catalog
+
+```
 python cataloger.py --csv-folder data --out catalog.json
 ```
 
-3. Run the Streamlit UI:
+### Run the Streamlit Application
 
-```bash
+```
 streamlit run streamlit_app.py -- --catalog catalog.json
 ```
 
-Notes
-- The project includes a lightweight LLM enrichment interface. If you set `OPENAI_API_KEY`, it will attempt to call OpenAI; otherwise a rule-based fallback will generate simple descriptions. You can extend `llm_enrich.py` to use a local Hugging Face model.
+## Sample Workflow
 
-Submission checklist (for AI Prototype Challenge)
+1. Upload one or more CSV files.
+2. Generate metadata and profiles.
+3. Explore tables, columns, and relationships.
+4. Search catalog contents.
+5. Export the catalog for reporting or sharing.
 
-- **Team info:** Add `team_info.md` with team name and member details.
-- **Public GitHub:** Ensure the repo is public before submission.
-- **README:** This file contains setup + run instructions.
-- **Demo video:** Record a 5–7 minute demo showing end-to-end flow.
-- **AI usage note:** See `ai_usage_note.md` for what AI helped and known issues.
-- **Prompts:** See `prompts.md` for prompt templates used.
-- **Sample data:** The `data/` folder contains sample CSVs used for testing.
-- **Outputs:** Generated reports are in `outputs/` (e.g. `final_report.md`, `sample_output.csv`).
-- **Tests:** Run `pytest` to validate the happy-path test(s).
+## Technologies Used
 
->>>>>>> 569797e (Initial commit)
+- Python
+- Streamlit
+- Pandas
+- NumPy
+- JSON
+- Git & GitHub
+
+## Outputs
+
+Generated outputs and reports are stored in the `outputs/` folder.
+
+## Submission Checklist
+
+- Public GitHub repository
+- README with setup instructions
+- Demo video (5–7 minutes)
+- Team information
+- Sample datasets
+- Generated outputs
+- AI usage documentation
+
+## Future Enhancements
+
+- Support for additional database systems
+- Advanced data lineage tracking
+- Automated data quality checks
+- Enhanced AI-generated descriptions
+- Role-based access control
+
+## License
+
+This project is intended for educational and prototype demonstration purposes.
