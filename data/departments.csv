@@ -1,0 +1,13 @@
+department_id,department_name,manager_name,employee_count,location
+101,Engineering,Rahul Sharma,85,Hyderabad
+102,Human Resources,Priya Reddy,12,Bangalore
+103,Finance,Anil Kumar,18,Mumbai
+104,Marketing,Sneha Patel,22,Chennai
+105,Sales,Vikram Rao,40,Pune
+106,Customer Success,Meera Iyer,15,Hyderabad
+107,Support,Ramesh Nair,28,Coimbatore
+108,Research & Development,Deepa Menon,34,Bangalore
+109,IT Operations,Karthik Varma,20,Ahmedabad
+110,Legal,Sunita Rao,6,Chennai
+111,Procurement,Rajesh Gupta,9,Mumbai
+112,Operations,Shivani Joshi,30,Delhi

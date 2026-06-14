@@ -1,0 +1,21 @@
+product_id,product_name,category,brand,price,stock_quantity
+PRD1001,Wireless Mouse,Accessories,TechWare,19.99,150
+PRD1002,USB-C Charger,Accessories,VoltUp,25.49,120
+PRD1003,Noise Canceling Headphones,Audio,SoundWave,89.99,80
+PRD1004,Smart Fitness Band,Wearables,TrackPro,49.99,200
+PRD1005,4K Monitor,Displays,UltraView,299.99,40
+PRD1006,Bluetooth Speaker,Audio,BeatBox,39.99,95
+PRD1007,Gaming Keyboard,Accessories,KeyMaster,74.99,60
+PRD1008,External SSD 1TB,Storage,DriveX,129.99,70
+PRD1009,Webcam HD,Accessories,VisionCam,45.00,110
+PRD1010,Wireless Earbuds,Audio,AirBeat,59.99,140
+PRD1011,Smartphone Stand,Accessories,FlexHold,12.99,250
+PRD1012,Portable Projector,Displays,LightCast,219.99,28
+PRD1013,Mechanical Gaming Mouse,Accessories,GamerPro,59.99,90
+PRD1014,Smart Desk Lamp,Home,GlowTech,34.99,130
+PRD1015,Noise Reduction Microphone,Audio,ClearVoice,49.99,55
+PRD1016,USB Hub 7-Port,Accessories,LinkUp,22.50,180
+PRD1017,Wireless Keyboard,Accessories,TypeEase,69.99,65
+PRD1018,VR Headset,Devices,VirtuPlay,399.99,18
+PRD1019,Laptop Cooling Pad,Accessories,CoolMax,29.99,95
+PRD1020,E-Reader 8-inch,Devices,ReadEZ,129.99,52

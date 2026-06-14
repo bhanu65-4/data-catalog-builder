@@ -1,0 +1,433 @@
+{
+  "tables": [
+    {
+      "source": "csv",
+      "name": "customers",
+      "path": "d:\\Data cat project\\data\\customers.csv",
+      "columns": [
+        {
+          "name": "customer_id",
+          "dtype": "int64",
+          "sample_values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "description": "Unique customer identifier."
+        },
+        {
+          "name": "first_name",
+          "dtype": "str",
+          "sample_values": [
+            "Harsha",
+            "Navitha",
+            "Ram",
+            "Sita",
+            "Ajay"
+          ],
+          "description": "Customer's first name."
+        },
+        {
+          "name": "last_name",
+          "dtype": "str",
+          "sample_values": [
+            "Sharma",
+            "Patel",
+            "Reddy",
+            "Kumar",
+            "Singh"
+          ],
+          "description": "Customer's last name."
+        },
+        {
+          "name": "email",
+          "dtype": "str",
+          "sample_values": [
+            "harsha.sharma@example.com",
+            "navitha.patel@example.com",
+            "ram.reddy@example.com",
+            "sita.kumar@example.com",
+            "ajay.singh@example.com"
+          ],
+          "description": "Customer email address used for communication."
+        },
+        {
+          "name": "phone_number",
+          "dtype": "int64",
+          "sample_values": [
+            "9876540101",
+            "9876540102",
+            "9876540103",
+            "9876540104",
+            "9876540105"
+          ],
+          "description": "Phone number used for contact."
+        },
+        {
+          "name": "city",
+          "dtype": "str",
+          "sample_values": [
+            "Hyderabad",
+            "Bangalore",
+            "Mumbai",
+            "Chennai",
+            "Pune"
+          ],
+          "description": "City of the customer address."
+        }
+      ],
+      "row_count": 20,
+      "summary": "customers — Columns: customer_id, first_name, last_name, email, phone_number, city Sample column descriptions: Unique customer identifier. | Customer's first name. | Customer's last name."
+    },
+    {
+      "source": "csv",
+      "name": "departments",
+      "path": "d:\\Data cat project\\data\\departments.csv",
+      "columns": [
+        {
+          "name": "department_id",
+          "dtype": "int64",
+          "sample_values": [
+            "101",
+            "102",
+            "103",
+            "104",
+            "105"
+          ],
+          "description": "Unique identifier for the department."
+        },
+        {
+          "name": "department_name",
+          "dtype": "str",
+          "sample_values": [
+            "Engineering",
+            "Human Resources",
+            "Finance",
+            "Marketing",
+            "Sales"
+          ],
+          "description": "Name of the department."
+        },
+        {
+          "name": "manager_name",
+          "dtype": "str",
+          "sample_values": [
+            "Rahul Sharma",
+            "Priya Reddy",
+            "Anil Kumar",
+            "Sneha Patel",
+            "Vikram Rao"
+          ],
+          "description": "Name of the manager."
+        },
+        {
+          "name": "employee_count",
+          "dtype": "int64",
+          "sample_values": [
+            "85",
+            "12",
+            "18",
+            "22",
+            "40"
+          ],
+          "description": "Numeric values for employee count (examples: 85 | 12 | 18 | 22 | 40)."
+        },
+        {
+          "name": "location",
+          "dtype": "str",
+          "sample_values": [
+            "Hyderabad",
+            "Bangalore",
+            "Mumbai",
+            "Chennai",
+            "Pune"
+          ],
+          "description": "Example values for location: Hyderabad | Bangalore | Mumbai | Chennai | Pune."
+        }
+      ],
+      "row_count": 12,
+      "summary": "departments — Columns: department_id, department_name, manager_name, employee_count, location Sample column descriptions: Unique identifier for the department. | Name of the department. | Name of the manager."
+    },
+    {
+      "source": "csv",
+      "name": "orders",
+      "path": "d:\\Data cat project\\data\\orders.csv",
+      "columns": [
+        {
+          "name": "order_id",
+          "dtype": "int64",
+          "sample_values": [
+            "1001",
+            "1002",
+            "1003",
+            "1004",
+            "1005"
+          ],
+          "description": "Order's unique identifier used to track purchases."
+        },
+        {
+          "name": "customer_id",
+          "dtype": "int64",
+          "sample_values": [
+            "1",
+            "2",
+            "1",
+            "3",
+            "4"
+          ],
+          "description": "Unique customer identifier."
+        },
+        {
+          "name": "product_id",
+          "dtype": "str",
+          "sample_values": [
+            "PRD1001",
+            "PRD1002",
+            "PRD1003",
+            "PRD1004",
+            "PRD1005"
+          ],
+          "description": "Unique identifier for the product."
+        },
+        {
+          "name": "quantity",
+          "dtype": "int64",
+          "sample_values": [
+            "1",
+            "2",
+            "1",
+            "3",
+            "1"
+          ],
+          "description": "Numeric values for quantity (examples: 1 | 2 | 1 | 3 | 1)."
+        },
+        {
+          "name": "amount",
+          "dtype": "float64",
+          "sample_values": [
+            "19.99",
+            "39.98",
+            "12.0",
+            "45.0",
+            "9.99"
+          ],
+          "description": "Total order amount."
+        },
+        {
+          "name": "payment_method",
+          "dtype": "str",
+          "sample_values": [
+            "Credit Card",
+            "UPI",
+            "PayPal",
+            "Credit Card",
+            "NetBanking"
+          ],
+          "description": "Example values for payment method: Credit Card | UPI | PayPal | Credit Card | NetBanking."
+        },
+        {
+          "name": "order_status",
+          "dtype": "str",
+          "sample_values": [
+            "Delivered",
+            "Shipped",
+            "Delivered",
+            "Processing",
+            "Delivered"
+          ],
+          "description": "Current status of the order status."
+        },
+        {
+          "name": "shipping_city",
+          "dtype": "str",
+          "sample_values": [
+            "Hyderabad",
+            "Bangalore",
+            "Mumbai",
+            "Chennai",
+            "Pune"
+          ],
+          "description": "Example values for shipping city: Hyderabad | Bangalore | Mumbai | Chennai | Pune."
+        }
+      ],
+      "row_count": 30,
+      "summary": "orders — Columns: order_id, customer_id, product_id, quantity, amount, payment_method Sample column descriptions: Order's unique identifier used to track purchases. | Unique customer identifier. | Unique identifier for the product."
+    },
+    {
+      "source": "csv",
+      "name": "products",
+      "path": "d:\\Data cat project\\data\\products.csv",
+      "columns": [
+        {
+          "name": "product_id",
+          "dtype": "str",
+          "sample_values": [
+            "PRD1001",
+            "PRD1002",
+            "PRD1003",
+            "PRD1004",
+            "PRD1005"
+          ],
+          "description": "Unique identifier for the product."
+        },
+        {
+          "name": "product_name",
+          "dtype": "str",
+          "sample_values": [
+            "Wireless Mouse",
+            "USB-C Charger",
+            "Noise Canceling Headphones",
+            "Smart Fitness Band",
+            "4K Monitor"
+          ],
+          "description": "Name of the product."
+        },
+        {
+          "name": "category",
+          "dtype": "str",
+          "sample_values": [
+            "Accessories",
+            "Accessories",
+            "Audio",
+            "Wearables",
+            "Displays"
+          ],
+          "description": "Example values for category: Accessories | Accessories | Audio | Wearables | Displays."
+        },
+        {
+          "name": "brand",
+          "dtype": "str",
+          "sample_values": [
+            "TechWare",
+            "VoltUp",
+            "SoundWave",
+            "TrackPro",
+            "UltraView"
+          ],
+          "description": "Example values for brand: TechWare | VoltUp | SoundWave | TrackPro | UltraView."
+        },
+        {
+          "name": "price",
+          "dtype": "float64",
+          "sample_values": [
+            "19.99",
+            "25.49",
+            "89.99",
+            "49.99",
+            "299.99"
+          ],
+          "description": "Price in currency units."
+        },
+        {
+          "name": "stock_quantity",
+          "dtype": "int64",
+          "sample_values": [
+            "150",
+            "120",
+            "80",
+            "200",
+            "40"
+          ],
+          "description": "Numeric values for stock quantity (examples: 150 | 120 | 80 | 200 | 40)."
+        }
+      ],
+      "row_count": 20,
+      "summary": "products — Columns: product_id, product_name, category, brand, price, stock_quantity Sample column descriptions: Unique identifier for the product. | Name of the product. | Example values for category: Accessories | Accessories | Audio | Wearables | Displays."
+    },
+    {
+      "source": "uploaded",
+      "name": "employees_uploaded_20260614_164906",
+      "path": "employees.csv",
+      "row_count": 10,
+      "columns": [
+        {
+          "name": "employee_id",
+          "dtype": "int64",
+          "sample_values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "description": "Unique employee identifier."
+        },
+        {
+          "name": "name",
+          "dtype": "str",
+          "sample_values": [
+            "John Smith",
+            "Sarah Johnson",
+            "Michael Brown",
+            "Emily Davis",
+            "David Wilson"
+          ],
+          "description": "Full name of the person or employee."
+        },
+        {
+          "name": "department",
+          "dtype": "str",
+          "sample_values": [
+            "Engineering",
+            "HR",
+            "Finance",
+            "Engineering",
+            "Marketing"
+          ],
+          "description": "Example values for department: Engineering | HR | Finance | Engineering | Marketing."
+        },
+        {
+          "name": "age",
+          "dtype": "int64",
+          "sample_values": [
+            "25",
+            "28",
+            "32",
+            "27",
+            "30"
+          ],
+          "description": "Employee age in years."
+        },
+        {
+          "name": "salary",
+          "dtype": "int64",
+          "sample_values": [
+            "45000",
+            "42000",
+            "55000",
+            "48000",
+            "50000"
+          ],
+          "description": "Employee compensation amount."
+        },
+        {
+          "name": "joining_date",
+          "dtype": "str",
+          "sample_values": [
+            "2022-01-15",
+            "2021-08-20",
+            "2020-05-10",
+            "2023-02-12",
+            "2021-11-01"
+          ],
+          "description": "Date or timestamp for the joining date."
+        },
+        {
+          "name": "email",
+          "dtype": "str",
+          "sample_values": [
+            "john@company.com",
+            "sarah@company.com",
+            "michael@company.com",
+            "emily@company.com",
+            "david@company.com"
+          ],
+          "description": "Customer email address used for communication."
+        }
+      ],
+      "summary": "employees_uploaded_20260614_164906 — Columns: employee_id, name, department, age, salary, joining_date Sample column descriptions: Unique employee identifier. | Full name of the person or employee. | Example values for department: Engineering | HR | Finance | Engineering | Marketing."
+    }
+  ]
+}

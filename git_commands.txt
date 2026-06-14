@@ -1,0 +1,19 @@
+# GitHub submission commands (run from d:/Data cat project)
+
+# 1. Initialize and commit
+git init
+git add .
+git commit -m "Initial prototype: Data Catalog Builder - scaffold, sample data, reports"
+
+# 2. Create a public repository on GitHub (use web UI) then add remote and push
+# Replace <YOUR_REMOTE_URL> with the 'https' repo URL shown on GitHub (e.g. https://github.com/yourorg/yourrepo.git)
+git remote add origin <YOUR_REMOTE_URL>
+git branch -M main
+git push -u origin main
+
+# 3. Optional: create a release ZIP locally (already provided in outputs/submission.zip)
+ls outputs
+
+# Notes:
+# - Ensure the repository is Public.
+# - Add team_info.md, resumes (PDFs), and demo video link to README before final push.

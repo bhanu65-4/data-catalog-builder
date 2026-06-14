@@ -1,0 +1,31 @@
+order_id,customer_id,product_id,quantity,amount,payment_method,order_status,shipping_city
+1001,1,PRD1001,1,19.99,Credit Card,Delivered,Hyderabad
+1002,2,PRD1002,2,39.98,UPI,Shipped,Bangalore
+1003,1,PRD1003,1,12.00,PayPal,Delivered,Mumbai
+1004,3,PRD1004,3,45.00,Credit Card,Processing,Chennai
+1005,4,PRD1005,1,9.99,NetBanking,Delivered,Pune
+1006,5,PRD1006,2,29.98,COD,Shipped,Delhi
+1007,6,PRD1007,1,15.50,UPI,Delivered,Kolkata
+1008,7,PRD1008,4,79.96,PayPal,Shipped,Surat
+1009,8,PRD1009,1,5.49,Credit Card,Cancelled,Jaipur
+1010,9,PRD1010,2,24.00,UPI,Delivered,Lucknow
+1011,10,PRD1011,1,11.25,NetBanking,Delivered,Coimbatore
+1012,11,PRD1012,5,125.00,Credit Card,Shipped,Ahmedabad
+1013,12,PRD1013,1,7.99,PayPal,Processing,Chandigarh
+1014,13,PRD1014,2,49.98,UPI,Delivered,Vizag
+1015,14,PRD1015,3,60.00,COD,Delivered,Bhopal
+1016,15,PRD1016,1,19.00,NetBanking,Returned,Indore
+1017,16,PRD1017,2,39.00,Credit Card,Shipped,Hyderabad
+1018,17,PRD1018,1,8.75,UPI,Delivered,Bangalore
+1019,18,PRD1019,4,99.96,PayPal,Processing,Mumbai
+1020,19,PRD1020,1,14.99,COD,Delivered,Chennai
+1021,20,PRD1021,2,29.98,NetBanking,Shipped,Pune
+1022,1,PRD1022,1,6.50,Credit Card,Delivered,Delhi
+1023,2,PRD1023,3,45.00,UPI,Delivered,Kolkata
+1024,3,PRD1024,2,22.00,PayPal,Shipped,Surat
+1025,4,PRD1025,1,13.99,COD,Processing,Jaipur
+1026,5,PRD1026,2,30.00,NetBanking,Delivered,Lucknow
+1027,6,PRD1027,1,9.50,Credit Card,Delivered,Coimbatore
+1028,7,PRD1028,4,119.96,UPI,Shipped,Ahmedabad
+1029,8,PRD1029,1,17.49,PayPal,Cancelled,Vizag
+1030,9,PRD1030,2,34.00,COD,Delivered,Bhopal

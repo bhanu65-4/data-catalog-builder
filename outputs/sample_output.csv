@@ -1,0 +1,4 @@
+table,column,type,sample_values,description
+customers,customer_id,int64,"1;2;3","Identifier column likely containing IDs"
+customers,first_name,object,"harsha;navitha;ram",""
+customers,email,object,"alice@example.com;bob@example.com","Email-like values"
