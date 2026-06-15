@@ -126,6 +126,8 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
+> **Test Files**: All test scripts are available in the [`tests/`](tests/) folder.
+
 All **19 tests** should pass, covering:
 
 - **Input validation** — All CSV files in `data/` exist and have expected columns/rows
@@ -145,6 +147,8 @@ The `data/` folder contains CSV input files used by both the application and the
 | `orders.csv` | order_id, customer_id, product_id, quantity, amount, payment_method, order_status, shipping_city | 30 | Order transactions |
 | `products.csv` | product_id, product_name, category, brand, price, stock_quantity | 20 | Product catalog |
 | `departments.csv` | department_id, department_name, manager_name, employee_count, location | 12 | Department info |
+
+> **Data Files**: All sample datasets are available in the [`data/`](data/) folder.
 
 ### Expected Outputs
 
