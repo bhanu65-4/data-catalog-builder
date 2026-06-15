@@ -15,6 +15,15 @@ Organizations often have data scattered across CSV files and databases with litt
 | B. Gowthami | CSE-AI | 232T1A03109 | butragowthami@gmail.com |
 | P. Shivani | EEE | 232T1A0227 | shivaniputta962@gmail.com |
 
+## Team Contributions
+
+| Team Member | Contribution |
+|------------|-------------|
+| D. Bhanu | Project architecture, catalog generation engine, Streamlit dashboard, GitHub integration |
+| D. Lasya Priya | Metadata enrichment, testing, documentation |
+| B. Gowthami | Dataset preparation, profiling validation, relationship discovery testing |
+| P. Shivani | Reporting, README preparation, demo video support |
+
 > **Resumes**: Team member resumes are available in the [`resumes/`](resumes/) folder as a PDF file.
 
 ## Features Implemented
