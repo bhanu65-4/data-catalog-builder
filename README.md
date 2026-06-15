@@ -30,7 +30,7 @@ Organizations often have data scattered across CSV files and databases with litt
 
 The Data Catalog Builder dashboard can be viewed at:
 
-**[🔗 http://localhost:8501](http://localhost:8501)**
+**[🔗 https://data-catalog-builder-kchdpcaxeazu3szit6yrv8.streamlit.app/](https://data-catalog-builder-kchdpcaxeazu3szit6yrv8.streamlit.app/)**
 
 ## Features Implemented
 
