@@ -106,6 +106,48 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+## Testing
+
+### Running Tests
+
+This project uses `pytest` for testing. To run all tests:
+
+```bash
+# Install test dependencies (if not already installed)
+pip install pytest
+
+# Run all tests
+python -m pytest tests/ -v
+```
+
+All **19 tests** should pass, covering:
+
+- **Input validation** — All CSV files in `data/` exist and have expected columns/rows
+- **Catalog generation** — `scan_csv_folder` and `build_catalog` produce correct output structure
+- **Metadata correctness** — Column names, data types, sample values, and row counts match expected values
+- **Relationship discovery** — Shared columns (e.g. `customers.customer_id` → `orders.customer_id`) are detected
+- **Pipeline integration** — End-to-end catalog build from CSV to JSON output
+- **Submission artifacts** — Generated reports and catalog files exist
+
+### Sample Data
+
+The `data/` folder contains CSV input files used by both the application and the test suite:
+
+| File | Columns | Rows | Description |
+|------|---------|------|-------------|
+| `customers.csv` | customer_id, first_name, last_name, email, phone_number, city | 20 | Customer records |
+| `orders.csv` | order_id, customer_id, product_id, quantity, amount, payment_method, order_status, shipping_city | 30 | Order transactions |
+| `products.csv` | product_id, product_name, category, brand, price, stock_quantity | 20 | Product catalog |
+| `departments.csv` | department_id, department_name, manager_name, employee_count, location | 12 | Department info |
+
+### Expected Outputs
+
+Running `python cataloger.py --csv-folder data --out catalog.json` generates `catalog.json` containing:
+- 4 tables with full schema metadata
+- Column names, data types, and sample values for all columns
+- Row counts for each table
+- A searchable, AI-enrichable catalog structure
+
 ## Run Instructions
 
 ### 1. Generate a Catalog from CSV Files

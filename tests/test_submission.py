@@ -9,5 +9,5 @@ def test_enriched_catalog_exists():
 
 
 def test_reports_generated():
-    assert os.path.exists('catalog_report.md')
-    assert os.path.exists('catalog_report.html')
+    assert os.path.exists('outputs/final_report.md'), 'Expected report file outputs/final_report.md'
+    assert os.path.exists('catalog.json'), 'Expected catalog.json to exist'
