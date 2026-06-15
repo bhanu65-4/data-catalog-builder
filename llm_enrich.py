@@ -219,21 +219,194 @@ def _call_ollama(prompt, model='gpt-4o-mini', url=None):
 
 
 def _answer_question_from_catalog(catalog, question):
-    q = question.lower()
-    if 'customer email' in q or 'customer emails' in q:
-        for t in catalog.get('tables', []):
-            if t.get('name', '').lower() == 'customers':
-                return 'Customer emails are stored in customers.email.'
-    if 'relationship' in q or 'relationships' in q:
-        rels = detect_relationships(catalog.get('tables', []))
-        if rels:
-            matches = [r for r in rels if 'order' in r['parent'].lower() or 'order' in r['child'].lower()]
-            if matches:
-                lines = [f"{r['parent']}.{r['column']} → {r['child']}.{r['column']}" for r in matches]
-                return 'Orders relationships:\n' + '\n'.join(lines)
-        return 'No detected order relationships were found in the catalog.'
-    table_names = ', '.join([t.get('name', '') for t in catalog.get('tables', [])])
-    return f'I could not answer directly, but this catalog contains: {table_names}.'
+    """
+    Intelligent question answering engine that queries catalog metadata.
+    Can answer questions about:
+    - Column names in a table ('what columns exist in orders?')
+    - Row counts / table sizes ('how many departments exist?')
+    - Table names ('what tables are available?')
+    - Column data types
+    - Sample / example values
+    - Relationships between tables
+    - Email columns or other specific columns
+    - Any combination of the above
+    """
+    q = question.lower().strip().rstrip('?')
+    tables = catalog.get('tables', [])
+    if not tables:
+        return 'The catalog is empty — no tables found.'
+    
+    # Build lookup indices
+    name_to_table = {}
+    for t in tables:
+        name_lower = t.get('name', '').lower()
+        name_to_table[name_lower] = t
+        # Also index by singular form
+        if name_lower.endswith('s') and len(name_lower) > 2:
+            name_to_table[name_lower[:-1]] = t
+    
+    # ── 1. Find which table(s) the question mentions ──────────────────────
+    q_words = set(w.strip('.,;:!?\'"') for w in q.split())
+    mentioned = []
+    for word in q_words:
+        if word in name_to_table:
+            mentioned.append(name_to_table[word])
+    # If no direct match, try substring matching
+    if not mentioned:
+        for word in sorted(q_words, key=len, reverse=True):
+            if len(word) < 3:
+                continue
+            for name_lower, t in name_to_table.items():
+                if word in name_lower or name_lower.startswith(word):
+                    mentioned.append(t)
+                    break
+        if mentioned:
+            mentioned = [mentioned[0]]
+    
+    # ── 2. Detect question intents ─────────────────────────────────────────
+    asking_columns = any(w in q for w in ['column', 'columns', 'field', 'fields', 'schema', 'what columns', 'list columns', 'show columns', 'which columns', 'attributes'])
+    asking_rows = any(w in q for w in ['row', 'rows', 'records', 'entries', 'size', 'how many', 'number of', 'count of', 'total'])
+    asking_tables = any(w in q for w in ['table', 'tables', 'what tables', 'list tables', 'which tables', 'available tables'])
+    asking_rels = any(w in q for w in ['relationship', 'relationships', 'relation', 'foreign key', 'references', 'relates', 'lineage', 'join'])
+    asking_dtypes = any(w in q for w in ['type', 'types', 'dtype', 'datatype', 'data type', 'data types'])
+    asking_sample = any(w in q for w in ['sample', 'example', 'examples', 'values', 'data', 'show me', 'examples of'])
+    asking_email = any(w in q for w in ['email', 'emails', 'mail', 'e-mail'])
+    asking_describe = any(w in q for w in ['describe', 'summary', 'overview', 'tell me about', 'details'])
+    
+    # ── 3. Respond intelligently based on intent ─────────────────────────
+    
+    # 3a. "Which table contains emails?" — must check before generic table listing
+    asking_which_table = any(w in q for w in ['which table', 'what table', 'where is', 'which table has', 'which table contains', 'what table contains', 'what table has'])
+    if asking_which_table or asking_email:
+        for t in tables:
+            for c in t.get('columns', []):
+                cn_lower = c['name'].lower()
+                # Check if question mentions this column content
+                q_without_stop = q.replace('which', '').replace('table', '').replace('contains', '').replace('has', '').replace('where', '').replace('is', '').replace('what', '').strip()
+                # Extract the key term from the question (e.g. "emails", "customer_id")
+                for word in q_words:
+                    if len(word) >= 3 and (word in cn_lower or cn_lower in word or cn_lower.startswith(word)):
+                        return f"**`{t['name']}.{c['name']}`** is in the **{t['name']}** table."
+                if cn_lower in q or cn_lower + 's' in q or cn_lower.replace('_', ' ') in q:
+                    return f"**`{t['name']}.{c['name']}`** is in the **{t['name']}** table."
+        # If asking about emails specifically but none found with column match
+        if asking_email:
+            for t in tables:
+                for c in t.get('columns', []):
+                    if 'email' in c['name'].lower():
+                        return f"**Emails are stored in `{t['name']}.{c['name']}`** column."
+            return "No email column found in any table."
+    
+    # 3b. List all tables
+    if asking_tables and not mentioned:
+        lines = []
+        for t in tables:
+            cc = len(t.get('columns', []))
+            rc = t.get('row_count', '?')
+            lines.append(f"  • **{t['name']}** — {cc} columns, {rc} rows")
+        return f"This catalog contains **{len(tables)} tables**:\n" + '\n'.join(lines)
+    
+    # 3c. All relationships
+    if asking_rels and not mentioned:
+        rels = detect_relationships(tables)
+        if not rels:
+            return "No relationships (shared columns) were detected between tables."
+        lines = [f"  • **{r['parent']}.{r['column']}** → **{r['child']}.{r['column']}**  *(One-to-Many)*" for r in rels]
+        return f"**{len(rels)} relationships detected:**\n" + '\n'.join(lines)
+    
+    # 3d. Questions about a specific table
+    if mentioned:
+        t = mentioned[0]
+        tn = t.get('name', '')
+        cols = t.get('columns', [])
+        rc = t.get('row_count', '?')
+        
+        # Columns list
+        if asking_columns:
+            col_names = [f"  • **{c['name']}** *({c.get('dtype', '?')})*" for c in cols]
+            return f"**{tn}** has **{len(cols)} columns**:\n" + '\n'.join(col_names)
+        
+        # Row count
+        if asking_rows:
+            return f"**{tn}** has **{rc} rows**."
+        
+        # Data types
+        if asking_dtypes:
+            lines = [f"  • **{c['name']}**: {c.get('dtype', '?')}" for c in cols]
+            return f"**{tn}** column data types:\n" + '\n'.join(lines)
+        
+        # Sample / example values
+        if asking_sample:
+            lines = []
+            for c in cols[:5]:  # Limit to 5 columns for readability
+                samples = c.get('sample_values', [])
+                sample_text = ', '.join(str(s) for s in samples[:3])
+                lines.append(f"  • **{c['name']}**: *{sample_text}*")
+            return f"**{tn}** sample values (first columns):\n" + '\n'.join(lines)
+        
+        # Relationships involving this table
+        if asking_rels:
+            rels = detect_relationships(tables)
+            tn_lower = tn.lower()
+            related = [r for r in rels if r['parent'].lower() == tn_lower or r['child'].lower() == tn_lower]
+            if not related:
+                return f"**{tn}** has no detected relationships with other tables."
+            lines = [f"  • **{r['parent']}.{r['column']}** → **{r['child']}.{r['column']}**" for r in related]
+            return f"**{tn}** relationships:\n" + '\n'.join(lines)
+        
+        # Email search within table context
+        if asking_email:
+            for c in t.get('columns', []):
+                if 'email' in c['name'].lower():
+                    return f"**Emails are stored in `{t['name']}.{c['name']}`** column."
+        
+        # Describe / summary
+        if asking_describe or (not asking_columns and not asking_rows and not asking_dtypes and not asking_sample and not asking_rels):
+            col_list = ', '.join(c['name'] for c in cols)
+            desc = t.get('summary', '')
+            part = f"**{tn}** has **{len(cols)} columns** and **{rc} rows**.\nColumns: {col_list}."
+            if desc:
+                part += f"\n\n*{desc}*"
+            return part
+    
+    # 3e. "Where is ...?" or "which table has ...?" — fallback if not caught above
+    for t in tables:
+        tn_lower = t.get('name', '').lower()
+        for c in t.get('columns', []):
+            cn_lower = c['name'].lower()
+            # Check if the question mentions this column name or a related term
+            if cn_lower in q_words or cn_lower + 's' in q_words or cn_lower.replace('_', ' ') in q:
+                return f"**`{t['name']}.{c['name']}`** is in the **{t['name']}** table."
+    
+    # 3f. Specific count question like "how many departments exist?"
+    if asking_rows or asking_how_many:
+        for t in tables:
+            tn_lower = t.get('name', '').lower()
+            if tn_lower in q or tn_lower in q_words or (tn_lower.endswith('s') and tn_lower[:-1] in q_words):
+                return f"**{t['name']}** has **{t.get('row_count', '?')} rows/records**."
+    
+    # 3g. Try matching column name in question to tables
+    for t in tables:
+        for c in t.get('columns', []):
+            cn_lower = c['name'].lower()
+            if cn_lower in q or cn_lower.replace('_', ' ') in q:
+                return f"**`{t['name']}.{c['name']}`** is a column in the **{t['name']}** table (type: {c.get('dtype', '?')})."
+    
+    # ── 4. Fallback — give a helpful summary of everything we know ────────
+    parts = []
+    parts.append(f"This catalog contains {len(tables)} tables")
+    for t in tables:
+        cc = len(t.get('columns', []))
+        rc = t.get('row_count', '?')
+        cols_preview = ', '.join(c['name'] for c in t.get('columns', [])[:3])
+        parts.append(f"  • **{t['name']}** ({rc} rows, {cc} cols: {cols_preview}, ...)")
+    
+    rels = detect_relationships(tables)
+    if rels:
+        rel_summary = '; '.join(f"{r['parent']}.{r['column']} → {r['child']}.{r['column']}" for r in rels[:3])
+        parts.append(f"Relationships: {rel_summary}")
+    
+    return "I found catalog information:\n" + '\n'.join(parts)
 
 
 def ask_catalog_question(catalog, question, provider='ollama', model='gpt-4o-mini', url=None):
