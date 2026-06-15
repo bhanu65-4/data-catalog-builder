@@ -17,10 +17,10 @@ A lightweight data cataloging application that scans CSV files and SQL databases
 
 | Name | Branch | Roll No | Email |
 | --- | --- | --- | --- |
-| D. Bhanu | CSE-AI | 232T1A03114 | Ayeshabhanu03@gmail.com |
+| D. Bhanu | CSE-AI | 232T1A03114 | ayeshabhanu03@gmail.com |
 | D. Lasya Priya | CSE | 232T1A0544 | donaparthyl@gmail.com |
 | B. Gowthami | CSE-AI | 232T1A03109 | butragowthami@gmail.com |
-| P. Shivani | EEE | 232T1A0227 | Shivaniputta962@gmail.com |
+| P. Shivani | EEE | 232T1A0227 | shivaniputta962@gmail.com |
 
 ## Project Structure
 
