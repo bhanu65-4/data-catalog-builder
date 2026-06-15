@@ -11,7 +11,16 @@ A lightweight data cataloging application that scans CSV files and SQL databases
 * Searchable data catalog
 * Interactive Streamlit dashboard
 * Export catalog functionality
-* LLM-ready metadata descriptions
+* AI-assisted column descriptions
+
+## Team Members
+
+| Name | Branch | Roll No | Email |
+| --- | --- | --- | --- |
+| D. Bhanu | CSE-AI | 232T1A03114 | Ayeshabhanu03@gmail.com |
+| D. Lasya Priya | CSE | 232T1A0544 | donaparthyl@gmail.com |
+| B. Gowthami | CSE-AI | 232T1A03109 | butragowthami@gmail.com |
+| P. Shivani | EEE | 232T1A0227 | Shivaniputta962@gmail.com |
 
 ## Project Structure
 
@@ -73,6 +82,13 @@ streamlit run streamlit_app.py -- --catalog catalog.json
 ## Outputs
 
 Generated outputs and reports are stored in the `outputs/` folder.
+
+## Sample Catalog Metrics
+
+* Tables: 5
+* Columns: 32
+* Relationships: 3
+* Rows Profiled: 92
 
 ## Submission Checklist
 

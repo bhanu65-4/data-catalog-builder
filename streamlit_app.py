@@ -1,7 +1,7 @@
 import streamlit as st
 import json
 import argparse
-from llm_enrich import enrich_catalog, _generate_fallback_description
+from llm_enrich import enrich_catalog, _generate_fallback_description, ask_catalog_question
 import pandas as pd
 from io import BytesIO
 from pathlib import Path
@@ -224,6 +224,13 @@ def main(catalog_path):
             catalog = enrich_catalog(catalog)
             save_catalog(catalog, catalog_path)
             st.success('Catalog enriched and saved')
+
+        st.markdown('---')
+        ai_question = st.text_input('Ask the catalog AI', placeholder='Which table contains customer emails?')
+        if st.button('Ask AI', key='ask_ai'):
+            answer = ask_catalog_question(catalog, ai_question)
+            st.markdown('**AI Answer**')
+            st.info(answer)
 
     def matches_table(item, q):
         if not q:

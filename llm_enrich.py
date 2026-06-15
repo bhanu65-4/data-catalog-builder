@@ -1,6 +1,13 @@
 import os
 import time
 
+try:
+    import requests
+except ImportError:
+    requests = None
+
+from catalog_utils import detect_relationships
+
 def _generate_fallback_description(col_name, samples):
     normalized = col_name.strip().lower()
     tokens = normalized.replace('-', '_').split('_')
@@ -172,3 +179,87 @@ def _generate_table_summary(table):
     if parts:
         return f"{table.get('name')} — " + ' '.join(parts)
     return f"{table.get('name')} table."    
+
+def _build_catalog_question_prompt(catalog, question):
+    tables = catalog.get('tables', [])
+    table_summaries = []
+    for table in tables[:8]:
+        cols = ', '.join([c.get('name') for c in table.get('columns', [])])
+        table_summaries.append(f"{table.get('name')}: {cols}")
+    catalog_text = '\n'.join(table_summaries)
+    return (
+        "You are a data catalog assistant. Answer the question using the catalog metadata and sample values. "
+        "Use plain language and mention the relevant table and column names when applicable."
+        f"\n\nCatalog metadata:\n{catalog_text}\n\nQuestion: {question}"
+    )
+
+
+def _call_ollama(prompt, model='gpt-4o-mini', url=None):
+    if requests is None:
+        raise ImportError('requests is required for Ollama integration')
+    endpoint = url or os.getenv('OLLAMA_URL', 'http://127.0.0.1:11434/v1/chat/completions')
+    payload = {
+        'model': os.getenv('OLLAMA_MODEL', model),
+        'messages': [
+            {'role': 'system', 'content': 'You are a helpful data catalog assistant.'},
+            {'role': 'user', 'content': prompt},
+        ],
+        'temperature': 0.2,
+        'top_p': 1.0,
+        'max_tokens': 200,
+    }
+    resp = requests.post(endpoint, json=payload, timeout=15)
+    resp.raise_for_status()
+    data = resp.json()
+    if 'choices' in data and data['choices']:
+        return data['choices'][0]['message']['content'].strip()
+    if 'text' in data:
+        return data['text'].strip()
+    return str(data)
+
+
+def _answer_question_from_catalog(catalog, question):
+    q = question.lower()
+    if 'customer email' in q or 'customer emails' in q:
+        for t in catalog.get('tables', []):
+            if t.get('name', '').lower() == 'customers':
+                return 'Customer emails are stored in customers.email.'
+    if 'relationship' in q or 'relationships' in q:
+        rels = detect_relationships(catalog.get('tables', []))
+        if rels:
+            matches = [r for r in rels if 'order' in r['parent'].lower() or 'order' in r['child'].lower()]
+            if matches:
+                lines = [f"{r['parent']}.{r['column']} → {r['child']}.{r['column']}" for r in matches]
+                return 'Orders relationships:\n' + '\n'.join(lines)
+        return 'No detected order relationships were found in the catalog.'
+    table_names = ', '.join([t.get('name', '') for t in catalog.get('tables', [])])
+    return f'I could not answer directly, but this catalog contains: {table_names}.'
+
+
+def ask_catalog_question(catalog, question, provider='ollama', model='gpt-4o-mini', url=None):
+    if not question:
+        return 'Please ask a catalog question.'
+    prompt = _build_catalog_question_prompt(catalog, question)
+    if provider == 'ollama':
+        try:
+            return _call_ollama(prompt, model=model, url=url)
+        except Exception:
+            return _answer_question_from_catalog(catalog, question)
+    if provider == 'openai' or (provider == 'auto' and os.getenv('OPENAI_API_KEY')):
+        try:
+            import openai
+            openai.api_key = os.getenv('OPENAI_API_KEY')
+            resp = openai.ChatCompletion.create(
+                model=model,
+                messages=[
+                    {'role': 'system', 'content': 'You are a helpful data catalog assistant.'},
+                    {'role': 'user', 'content': prompt},
+                ],
+                max_tokens=200,
+                temperature=0.2,
+                top_p=1.0,
+            )
+            return resp['choices'][0]['message']['content'].strip()
+        except Exception:
+            return _answer_question_from_catalog(catalog, question)
+    return _answer_question_from_catalog(catalog, question)
