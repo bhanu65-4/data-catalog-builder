@@ -32,16 +32,6 @@ The Data Catalog Builder dashboard can be viewed at:
 
 **[🔗 http://localhost:8501](http://localhost:8501)**
 
-*Run `streamlit run streamlit_app.py -- --catalog catalog.json` to launch the dashboard locally.*
-
-You can also deploy this project on **Streamlit Cloud** (free for public repos):
-1. Go to [share.streamlit.io](https://share.streamlit.io)
-2. Sign in with GitHub
-3. Select this repository (`bhanu65-4/data-catalog-builder`)
-4. Set the main file to `streamlit_app.py`
-5. Add `--catalog catalog.json` in the **Secrets / Advanced settings**
-6. Deploy
-
 ## Features Implemented
 
 - Upload and register CSV datasets
