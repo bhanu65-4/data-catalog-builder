@@ -65,9 +65,11 @@ def set_background():
         .small-muted { color: #94A3B8; }
         .data-card { border: 1px solid #334155; border-radius: 14px; padding: 16px; margin-bottom: 12px; background: #1E293B; }
         .table-header { font-size: 1rem; font-weight: 700; color: #F8FAFC; }
-        .stButton button, button[type="submit"] { background-color: #2563EB !important; color: #FFFFFF !important; border: none !important; }
-        .stButton button:hover, button[type="submit"]:hover { background-color: #1D4ED8 !important; }
-        .stMarkdown svg, .stHeader svg, .stMetric svg, .stText svg { color: #06B6D4 !important; fill: #06B6D4 !important; }
+        .stButton button, button[type="submit"] { background-color: #3B82F6 !important; color: #FFFFFF !important; border: none !important; }
+        .stButton button:hover, button[type="submit"]:hover { background-color: #2563EB !important; }
+        .stSuccess { color: #10B981 !important; }
+        .stAlert { border-left-color: #10B981 !important; }
+        .stMarkdown svg, .stHeader svg, .stMetric svg, .stText svg { color: #3B82F6 !important; fill: #3B82F6 !important; }
         .stMarkdown > div > p, .stMarkdown > div > span, .stText > div, .stHeader > div, .stMetric > div, .stTextInput>div>div>input, .stTextInput>div>label {
             color: #F8FAFC !important;
         }
