@@ -1,7 +1,6 @@
 import streamlit as st
 import json
 import argparse
-from llm_enrich import enrich_catalog, _generate_fallback_description, ask_catalog_question
 import pandas as pd
 from io import BytesIO
 from pathlib import Path
@@ -221,6 +220,7 @@ def main(catalog_path):
     with st.expander('Search and actions', expanded=True):
         q = st.text_input('Search tables or columns', placeholder='Search by table name, column name, or description...')
         if st.button('Enrich missing descriptions'):
+            from llm_enrich import enrich_catalog
             catalog = enrich_catalog(catalog)
             save_catalog(catalog, catalog_path)
             st.success('Catalog enriched and saved')
@@ -228,6 +228,7 @@ def main(catalog_path):
         st.markdown('---')
         ai_question = st.text_input('Ask the catalog AI', placeholder='Which table contains customer emails?')
         if st.button('Ask AI', key='ask_ai'):
+            from llm_enrich import ask_catalog_question
             answer = ask_catalog_question(catalog, ai_question)
             st.markdown('**AI Answer**')
             st.info(answer)
@@ -239,6 +240,7 @@ def main(catalog_path):
         return ql in item.get('name', '').lower()
 
     def get_col_description(c):
+        from llm_enrich import _generate_fallback_description
         return c.get('description') or _generate_fallback_description(c.get('name'), c.get('sample_values', []))
 
     def matches_column(c, q, table_name=''):
